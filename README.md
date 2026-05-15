@@ -1,52 +1,45 @@
 # SimsTalk
 
 SimsTalk 是一个为《模拟人生4》(The Sims 4) 游戏打造的 AI 对话增强工具，通过 Socket 通信与游戏 Mod 配合，实现游戏角色之间的智能对话生成。
+相比于目前常见的Sims4AI Mod，SimsTalk功能更加完善，并且对中国大陆玩家使用更加友好，支持常见的中国大模型配置。
 
-## 功能特性
+**注意，目前SimsTalk处于开发早期，可能会出现一些未知问题，建议备份Mod文件夹再使用。**
+目前仅支持Windows平台的游戏，部分信息的获取依赖于游戏资料包。
 
-- **AI 对话生成**：基于大语言模型生成游戏角色之间的自然对话
-- **Socket 服务器**：稳定的本地 Socket 通信，支持与游戏 Mod 实时数据交互
-- **Jinja2 提示词模板**：支持自定义提示词模板，灵活配置对话生成逻辑
+# 功能特性
+SimsTalk有中长期的更新计划，以下是已经实现和计划实现的功能列表：
+
+## 已实现功能
+- **AI 对话生成和显示**：基于大语言模型生成游戏角色之间的对话并显示
+- **Mod-App通信**：稳定的本地 Socket 通信，支持与游戏 Mod 实时数据交互
+- **提示词模板**：参考RimTalk提示词设定，具备模板、段落设置、变量替换甚至逻辑运算功能
 - **记忆系统**：自动记录对话历史，支持角色记忆功能
-- **游戏内对话框**：可拖动的透明对话框叠加层，支持自定义样式
-- **Mod 管理**：自动检测、安装和更新游戏 Mod
-- **版本检查**：优先从 GitHub 获取版本，Gitee 作为备用源
+- **角色人格设置**：可设定的独立人格，支持不同角色之间的对话差异
+- **一键Mod 管理**：自动检测、安装和更新游戏 Mod
 
-## 技术栈
-
-- Python 3.8+
-- Tkinter / ttkbootstrap (GUI)
-- Jinja2 (模板引擎)
-- Socket (网络通信)
-- Requests (HTTP 请求)
+## 计划实现功能（好大的饼）
+- **行为记忆管理**：对角色行为的检测和记忆
+- **记忆归档和管理系统**：支持将对话记忆归档，方便玩家查看和管理角色记忆
+- **更多信息的获取**：支持从游戏 Mod 中获取角色信息，如角色技能等级、周围环境、需求等级等
+- **随机事件**：大模型驱动的随机事件系统
+- **模型驱动的Buff系统**：根据角色对话和结果，动态调整角色的Buff状态
+- **行为控制**：根据角色对话和结果，动态调整角色的行为
 
 ## 快速开始
 
 ### 环境要求
 
-- Python 3.8 或更高版本
+- Python 3.7 或更高版本
 - 《模拟人生4》游戏（需安装对应 Mod）
 
 ### 安装步骤
 
-1. **克隆项目**
+1. **下载发行版App**
 
-```bash
-git clone https://github.com/xczEndsub/SimsTalk-mod.git
-cd SimsTalk
-```
+2. **安装App**
 
-2. **安装依赖**
-
-```bash
-pip install -r requirements.txt
-```
-
-3. **运行应用**
-
-```bash
-python SimsTalkApp/SimsInfoClient.py
-```
+3. **运行App**
+根据提示完成步骤，开始游戏
 
 ## 配置说明
 
@@ -69,8 +62,6 @@ python SimsTalkApp/SimsInfoClient.py
 - Model Provider: OpenAI 或自定义
 - API Base 地址
 - API Key
-- Max Tokens
-- Temperature
 
 ## 使用指南
 
@@ -80,7 +71,7 @@ python SimsTalkApp/SimsInfoClient.py
 2. 配置 Mods 路径（可自动检测）
 3. 安装/更新 SimsTalk Mod
 4. 配置 AI 模型参数
-5. 启动游戏，应用自动连接
+5. 启动游戏
 
 ### 对话框操作
 
@@ -90,32 +81,6 @@ python SimsTalkApp/SimsInfoClient.py
 
 ### 提示词模板
 
-应用使用 Jinja2 模板引擎，支持以下变量：
-
-| 变量 | 说明 | 示例 |
-| :--- | :--- | :--- |
-| `sims_data` | 角色数据列表 | `sims_data[0].name`, `sims_data[0].mood` |
-| `time` | 当前时间 | "9:31 周日" |
-| `location` | 当前地点 | "客厅" |
-| `weather` | 天气 | "晴天" |
-| `season` | 季节 | "夏季" |
-| `atmosphere` | 对话氛围 | "随意" |
-| `memory` | 角色记忆 | 历史对话记录 |
-
-## 项目结构
-
-```
-SimsTalk/
-├── SimsTalkApp/
-│   ├── SimsInfoClient.py    # 主应用程序
-│   ├── simstalk_config.json # 配置文件
-│   ├── prompt_presets/      # 提示词预设目录
-│   │   └── default.json     # 默认提示词模板
-│   └── SimsTalk.png         # 应用图标
-├── SimsTalk.py              # 游戏 Mod 代码
-├── requirements.txt         # 依赖列表
-└── README.md                # 项目说明
-```
 
 ## Mod 安装
 
@@ -140,25 +105,9 @@ Mods/SimsTalk/
 
 如果提示"端口被占用"，请在设置中修改 Socket 端口号，选择一个未被占用的端口（如 21909）。
 
-### 连接失败
-
-1. 确保游戏已启动且 Mod 已正确加载
-2. 检查防火墙设置，允许应用通信
-3. 确认端口号配置一致
-
 ### 对话框不显示
 
-1. 确保游戏窗口处于活动状态
-2. 检查对话框透明度设置
-3. 尝试调整对话框位置
-
-## 许可证
-
-MIT License
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request！
+确保游戏处于“窗口化全屏”显示模式
 
 ## 联系方式
 
